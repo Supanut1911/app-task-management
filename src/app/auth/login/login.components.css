@@ -1,0 +1,22 @@
+mat-card {
+  width: 500px;
+  padding: 40px;
+  margin: auto;
+}
+mat-form-field,
+textarea {
+  width: 100%;
+}
+
+textarea {
+  width: 100%;
+}
+
+.header {
+  padding: 20px;
+  text-align: center;
+}
+
+.save-btn {
+  margin: 20px;
+}

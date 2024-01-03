@@ -6,14 +6,24 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { HeaderComponent } from './header/header.components';
-
+import { LoginComponent } from './auth/login/login.components';
+import { MatCardModule } from '@angular/material/card';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
 @NgModule({
-  declarations: [AppComponent, HeaderComponent],
+  declarations: [AppComponent, HeaderComponent, LoginComponent],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    MatInputModule,
+    MatCardModule,
+    MatButtonModule,
     MatToolbarModule,
+    MatFormFieldModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
