@@ -17,6 +17,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { TaskCreateComponent } from './tasks/task-create/task-create.component';
 import { TaskListComponent } from './tasks/task-list/task-list.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { TaskService } from './tasks/task.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +40,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     HttpClientModule,
     MatExpansionModule,
   ],
-  providers: [],
+  providers: [TaskService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

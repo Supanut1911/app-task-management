@@ -1,12 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { TaskService } from '../task.service';
+import { Task } from '../task.model';
 
 @Component({
   selector: 'app-task-list',
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.css'],
 })
-export class TaskListComponent {
-  tasks = [
+export class TaskListComponent implements OnInit {
+  @Input() tasks = [
     {
       title: '1st post',
       content: 'lorem1',
@@ -20,4 +22,10 @@ export class TaskListComponent {
       content: 'lorem3',
     },
   ];
+
+  constructor(public readonly taskService: TaskService) {}
+
+  ngOnInit(): void {
+    this.tasks = this.taskService.getTasks();
+  }
 }
