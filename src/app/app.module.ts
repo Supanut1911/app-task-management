@@ -15,6 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { SignupComponent } from './auth/signup/signup.components';
 import { HttpClientModule } from '@angular/common/http';
 import { TaskCreateComponent } from './tasks/task-create/task-create.component';
+import { TaskListComponent } from './tasks/task-list/task-list.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,6 +23,7 @@ import { TaskCreateComponent } from './tasks/task-create/task-create.component';
     LoginComponent,
     SignupComponent,
     TaskCreateComponent,
+    TaskListComponent,
   ],
   imports: [
     BrowserModule,
