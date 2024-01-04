@@ -20,4 +20,14 @@ export class AuthService {
         console.log(response);
       });
   }
+
+  login(username: string, password: string) {
+    const authData: AuthData = {
+      username,
+      password,
+    };
+    this.http.post(BACKEND_API + '/auth/login', authData).subscribe((res) => {
+      console.log(res);
+    });
+  }
 }
