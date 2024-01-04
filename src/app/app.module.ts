@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { SignupComponent } from './auth/signup/signup.components';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,6 +31,7 @@ import { SignupComponent } from './auth/signup/signup.components';
     MatButtonModule,
     MatToolbarModule,
     MatFormFieldModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
