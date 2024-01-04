@@ -1,0 +1,13 @@
+.task-header-container {
+  text-align: center;
+  margin: 20px;
+}
+
+.task-topic {
+  font: 2em sans-serif;
+}
+
+.task-empty {
+  margin-top: 30px;
+  text-align: center;
+}

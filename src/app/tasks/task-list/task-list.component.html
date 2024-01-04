@@ -1,1 +1,13 @@
-<h1>hi tasklist</h1>
+<div class="task-header-container">
+  <p class="task-topic">The tasks</p>
+</div>
+
+<mat-accordion multi="true" *ngIf="tasks.length > 0">
+  <mat-expansion-panel *ngFor="let task of tasks">
+    <mat-expansion-panel-header> {{ task.title }} </mat-expansion-panel-header>
+    <p>{{ task.content }}</p>
+  </mat-expansion-panel>
+</mat-accordion>
+<p class="task-empty" *ngIf="tasks.length <= 0">
+  ... Your task list is empty ...
+</p>

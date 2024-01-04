@@ -16,6 +16,7 @@ import { SignupComponent } from './auth/signup/signup.components';
 import { HttpClientModule } from '@angular/common/http';
 import { TaskCreateComponent } from './tasks/task-create/task-create.component';
 import { TaskListComponent } from './tasks/task-list/task-list.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,6 +37,7 @@ import { TaskListComponent } from './tasks/task-list/task-list.component';
     MatToolbarModule,
     MatFormFieldModule,
     HttpClientModule,
+    MatExpansionModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

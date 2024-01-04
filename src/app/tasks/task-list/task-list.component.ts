@@ -6,7 +6,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./task-list.component.css'],
 })
 export class TaskListComponent {
-  onSaveTask(form) {
-    console.log(form.value);
-  }
+  tasks = [
+    {
+      title: '1st post',
+      content: 'lorem1',
+    },
+    {
+      title: '2st post',
+      content: 'lorem2',
+    },
+    {
+      title: '3st post',
+      content: 'lorem3',
+    },
+  ];
 }
