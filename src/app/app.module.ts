@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { HeaderComponent } from './header/header.components';
+import { HeaderComponent } from './header/header.component';
 import { LoginComponent } from './auth/login/login.components';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
@@ -14,12 +14,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { SignupComponent } from './auth/signup/signup.components';
 import { HttpClientModule } from '@angular/common/http';
+import { TaskCreateComponent } from './tasks/task-create/task-create.component';
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     LoginComponent,
     SignupComponent,
+    TaskCreateComponent,
   ],
   imports: [
     BrowserModule,
