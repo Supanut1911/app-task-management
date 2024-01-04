@@ -8,10 +8,16 @@ const BACKEND_API = environment.BACKEND_URL;
   providedIn: 'root',
 })
 export class AuthService {
+  private accesstoken: string;
+
   constructor(
     private readonly http: HttpClient,
     private readonly router: Router
   ) {}
+
+  getAccessToken() {
+    return this.accesstoken;
+  }
 
   createUser(username: string, password: string) {
     const authData: AuthData = {
@@ -31,9 +37,11 @@ export class AuthService {
       username,
       password,
     };
-    this.http.post(BACKEND_API + '/auth/login', authData).subscribe((res) => {
-      console.log(res);
-      this.router.navigate(['/']);
-    });
+    this.http
+      .post<{ accessToken: string }>(BACKEND_API + '/auth/login', authData)
+      .subscribe((response) => {
+        this.router.navigate(['/']);
+        this.accesstoken = response.accessToken;
+      });
   }
 }
