@@ -27,7 +27,6 @@ export class AuthService {
     this.http
       .post<AuthData>(BACKEND_API + '/user/signup', authData)
       .subscribe((response) => {
-        console.log(response);
         this.router.navigate(['/login']);
       });
   }

@@ -3,6 +3,8 @@ import { Task } from './task.model';
 import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
+import { map } from 'rxjs';
+
 const BACKEND_API = environment.BACKEND_URL;
 @Injectable({
   providedIn: 'root',
@@ -14,10 +16,23 @@ export class TaskService {
   constructor(private readonly http: HttpClient) {}
 
   getTasks() {
-    this.http.get<Task[]>(BACKEND_API + '/task').subscribe((tasks: Task[]) => {
-      this.tasks = tasks;
-      this.taskUpdated.next(...[this.tasks]);
-    });
+    this.http
+      .get<any>(BACKEND_API + '/task')
+      .pipe(
+        map((taskData) => {
+          return taskData.map((post) => {
+            return {
+              title: post.title,
+              content: post.content,
+              id: post._id,
+            };
+          });
+        })
+      )
+      .subscribe((transformTasks: Task[]) => {
+        this.tasks = transformTasks;
+        this.taskUpdated.next(...[this.tasks]);
+      });
   }
 
   getTaskUpdateListener() {
@@ -26,8 +41,11 @@ export class TaskService {
 
   saveTask(title: string, content: string) {
     const task: Task = { title, content };
-    this.tasks.push(task);
+    // this.http.post(BACKEND_API + '/task', task).subscribe((response) => {
+    //   console.log(response);
 
+    // });
+    this.tasks.push(task);
     this.taskUpdated.next([...this.tasks]);
   }
 }
