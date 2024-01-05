@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
 import { map } from 'rxjs';
+import { Router } from '@angular/router';
 
 const BACKEND_API = environment.BACKEND_URL;
 @Injectable({
@@ -13,7 +14,7 @@ export class TaskService {
   private tasks: Task[] = [];
   private taskUpdated = new Subject<Task[]>();
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient, private router: Router) {}
 
   getTasks() {
     this.http
@@ -52,9 +53,10 @@ export class TaskService {
       .subscribe((response) => {
         const taskId = response.taskId;
         task.id = taskId;
+        this.tasks.push(task);
+        this.taskUpdated.next([...this.tasks]);
+        this.router.navigate(['/']);
       });
-    this.tasks.push(task);
-    this.taskUpdated.next([...this.tasks]);
   }
 
   updateTask(taskId: string, title: string, description: string) {
@@ -66,7 +68,7 @@ export class TaskService {
     this.http
       .patch(BACKEND_API + '/task/only/' + taskId, task)
       .subscribe((response) => {
-        console.log(response);
+        this.router.navigate(['/']);
       });
   }
 
