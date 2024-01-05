@@ -3,12 +3,14 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { AuthData } from './auth-data.model';
 import { Router } from '@angular/router';
+import { Subject, Subscribable, Subscription } from 'rxjs';
 const BACKEND_API = environment.BACKEND_URL;
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private accesstoken: string;
+  private authStatusListener = new Subject<boolean>();
 
   constructor(
     private readonly http: HttpClient,
@@ -17,6 +19,10 @@ export class AuthService {
 
   getAccessToken() {
     return this.accesstoken;
+  }
+
+  getAuthStatusListener() {
+    return this.authStatusListener.asObservable();
   }
 
   createUser(username: string, password: string) {
@@ -41,6 +47,7 @@ export class AuthService {
       .subscribe((response) => {
         this.router.navigate(['/']);
         this.accesstoken = response.accessToken;
+        this.authStatusListener.next(true);
       });
   }
 }
