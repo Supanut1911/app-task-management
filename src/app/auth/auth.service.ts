@@ -13,6 +13,9 @@ export class AuthService {
   private accesstoken: string;
   private authStatusListener = new Subject<boolean>();
 
+  //for timeout
+  private tokenTimer: any;
+
   constructor(
     private readonly http: HttpClient,
     private readonly router: Router
@@ -48,14 +51,23 @@ export class AuthService {
       password,
     };
     this.http
-      .post<{ accessToken: string }>(BACKEND_API + '/auth/login', authData)
+      .post<{ accessToken: string; expireIn: number }>(
+        BACKEND_API + '/auth/login',
+        authData
+      )
       .subscribe((response) => {
         this.accesstoken = response.accessToken;
         if (this.accesstoken) {
           this.isAuthenticated = true;
           this.authStatusListener.next(true);
+          this.router.navigate(['/']);
+
+          //lifetime of accessToken
+          const expiresInDuration = response.expireIn * 1000;
+          this.tokenTimer = setTimeout(() => {
+            this.logout();
+          }, expiresInDuration);
         }
-        this.router.navigate(['/']);
       });
   }
 
@@ -63,6 +75,11 @@ export class AuthService {
     this.accesstoken = null;
     this.isAuthenticated = false;
     this.authStatusListener.next(false);
+
+    //clear time out
+    clearTimeout(this.tokenTimer);
+
+    //redirect
     this.router.navigate(['/']);
   }
 }
