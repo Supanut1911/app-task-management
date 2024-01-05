@@ -68,11 +68,6 @@ export class AuthService {
           const expirationDate = new Date(
             now.getTime() + expiresInDuration * 1000
           );
-          //lifetime of accessToken
-
-          // this.tokenTimer = setTimeout(() => {
-          //   this.logout();
-          // }, expiresInDuration);
 
           this.saveAuthData(this.accesstoken, expirationDate);
 
@@ -101,6 +96,9 @@ export class AuthService {
 
   autoAuthUser() {
     const authInfo = this.getAuthData();
+    if (!authInfo) {
+      return;
+    }
     const now = new Date();
     const expireIn = authInfo.expireationDate.getTime() - now.getTime();
     if (expireIn > 0) {
