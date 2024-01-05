@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { TaskService } from '../task.service';
 import { Task } from '../task.model';
 import { Subscription } from 'rxjs';
+import { PageEvent } from '@angular/material/paginator';
 @Component({
   selector: 'app-task-list',
   templateUrl: './task-list.component.html',
@@ -12,10 +13,10 @@ export class TaskListComponent implements OnInit, OnDestroy {
   isLoading = false;
 
   //paginate
-  totalPosts = 0;
-  postsPerPage = 5;
+  totalTasks = 0;
+  tasksPerPage = 2;
   currentPage = 1;
-  pageSizeOptions = [5, 10, 20];
+  pageSizeOptions = [2, 5, 10, 20];
 
   private tasksSub: Subscription;
 
@@ -23,21 +24,28 @@ export class TaskListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.taskService.getTasks();
+    this.taskService.getTasks(this.tasksPerPage, this.currentPage);
     this.tasksSub = this.taskService
       .getTaskUpdateListener()
-      .subscribe((task: Task[]) => {
-        this.tasks = task;
+      .subscribe((taskData: { tasks: Task[]; taskCount: number }) => {
+        this.tasks = taskData.tasks;
+        this.totalTasks = taskData.taskCount;
         this.isLoading = false;
       });
   }
 
   onDeleteTask(taskId: string) {
-    this.taskService.deleteTask(taskId);
+    this.taskService.deleteTask(taskId).subscribe((response) => {
+      this.taskService.getTasks(this.tasksPerPage, this.currentPage);
+    });
   }
 
   //panigate
-  onChangePage(page: number) {}
+  onChangePage(pageData: PageEvent) {
+    this.currentPage = pageData.pageIndex + 1;
+    this.tasksPerPage = pageData.pageSize;
+    this.taskService.getTasks(this.tasksPerPage, this.currentPage);
+  }
 
   ngOnDestroy(): void {
     this.tasksSub.unsubscribe();

@@ -12,27 +12,36 @@ const BACKEND_API = environment.BACKEND_URL;
 })
 export class TaskService {
   private tasks: Task[] = [];
-  private taskUpdated = new Subject<Task[]>();
+  private taskUpdated = new Subject<{ tasks: Task[]; taskCount: number }>();
 
   constructor(private readonly http: HttpClient, private router: Router) {}
 
-  getTasks() {
+  getTasks(taskPerPage: number, currentPage: number) {
+    const queryParams = `?pageSize=${taskPerPage}&page=${currentPage}`;
     this.http
-      .get<any>(BACKEND_API + '/task')
+      .get<{ msg: string; tasks: any[]; maxTasks: number }>(
+        BACKEND_API + '/task' + queryParams
+      )
       .pipe(
         map((taskData) => {
-          return taskData.map((task) => {
-            return {
-              title: task.title,
-              description: task.description,
-              id: task._id,
-            };
-          });
+          return {
+            tasks: taskData.tasks.map((task) => {
+              return {
+                title: task.title,
+                description: task.description,
+                id: task._id,
+              };
+            }),
+            maxTasks: taskData.maxTasks,
+          };
         })
       )
-      .subscribe((transformTasks: Task[]) => {
-        this.tasks = transformTasks;
-        this.taskUpdated.next(...[this.tasks]);
+      .subscribe((transformTasksData) => {
+        this.tasks = transformTasksData.tasks;
+        this.taskUpdated.next({
+          tasks: [...this.tasks],
+          taskCount: transformTasksData.maxTasks,
+        });
       });
   }
 
@@ -51,10 +60,6 @@ export class TaskService {
     this.http
       .post<{ taskId: string }>(BACKEND_API + '/task/only', task)
       .subscribe((response) => {
-        const taskId = response.taskId;
-        task.id = taskId;
-        this.tasks.push(task);
-        this.taskUpdated.next([...this.tasks]);
         this.router.navigate(['/']);
       });
   }
@@ -73,12 +78,6 @@ export class TaskService {
   }
 
   deleteTask(taskId: string) {
-    this.http.delete(BACKEND_API + '/task/only/' + taskId).subscribe(() => {
-      const updatePost = this.tasks.filter((task) => {
-        return task.id !== taskId;
-      });
-      this.tasks = updatePost;
-      this.taskUpdated.next([...this.tasks]);
-    });
+    return this.http.delete(BACKEND_API + '/task/only/' + taskId);
   }
 }
