@@ -9,6 +9,7 @@ const BACKEND_API = environment.BACKEND_URL;
   providedIn: 'root',
 })
 export class AuthService {
+  private isAuthenticated = false;
   private accesstoken: string;
   private authStatusListener = new Subject<boolean>();
 
@@ -23,6 +24,10 @@ export class AuthService {
 
   getAuthStatusListener() {
     return this.authStatusListener.asObservable();
+  }
+
+  getIsAuth() {
+    return this.isAuthenticated;
   }
 
   createUser(username: string, password: string) {
@@ -47,7 +52,10 @@ export class AuthService {
       .subscribe((response) => {
         this.router.navigate(['/']);
         this.accesstoken = response.accessToken;
-        this.authStatusListener.next(true);
+        if (this.accesstoken) {
+          this.isAuthenticated = true;
+          this.authStatusListener.next(true);
+        }
       });
   }
 }

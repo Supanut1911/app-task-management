@@ -7,7 +7,7 @@
   <mat-expansion-panel *ngFor="let task of tasks">
     <mat-expansion-panel-header> {{ task.title }} </mat-expansion-panel-header>
     <p>{{ task.description }}</p>
-    <mat-action-row>
+    <mat-action-row *ngIf="userIsAuthenticated">
       <button mat-button color="primary">Done</button>
       <a mat-button [routerLink]="['/edit', task.id]" color="accent">Edit</a>
       <button mat-button color="warn" (click)="onDeleteTask(task.id)">
@@ -19,7 +19,6 @@
 <mat-paginator
   [length]="totalTasks"
   [pageSize]="tasksPerPage"
-  t
   [pageSizeOptions]="pageSizeOptions"
   (page)="onChangePage($event)"
   *ngIf="!(tasks.length == 0)"

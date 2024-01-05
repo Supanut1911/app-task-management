@@ -3,6 +3,7 @@ import { TaskService } from '../task.service';
 import { Task } from '../task.model';
 import { Subscription } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
+import { AuthService } from '../../auth/auth.service';
 @Component({
   selector: 'app-task-list',
   templateUrl: './task-list.component.html',
@@ -17,10 +18,14 @@ export class TaskListComponent implements OnInit, OnDestroy {
   tasksPerPage = 2;
   currentPage = 1;
   pageSizeOptions = [2, 5, 10, 20];
-
+  userIsAuthenticated = false;
   private tasksSub: Subscription;
+  private authStatusSub: Subscription;
 
-  constructor(public readonly taskService: TaskService) {}
+  constructor(
+    public readonly taskService: TaskService,
+    private readonly authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -31,6 +36,12 @@ export class TaskListComponent implements OnInit, OnDestroy {
         this.tasks = taskData.tasks;
         this.totalTasks = taskData.taskCount;
         this.isLoading = false;
+      });
+    this.userIsAuthenticated = this.authService.getIsAuth();
+    this.authStatusSub = this.authService
+      .getAuthStatusListener()
+      .subscribe((isAuthenticated) => {
+        this.userIsAuthenticated = isAuthenticated;
       });
   }
 
@@ -49,5 +60,6 @@ export class TaskListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.tasksSub.unsubscribe();
+    this.authStatusSub.unsubscribe();
   }
 }
