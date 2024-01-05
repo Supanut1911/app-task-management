@@ -9,7 +9,7 @@
         placeholder="Task title"
         type="text"
         name="title"
-        [ngModel]="task.title"
+        [ngModel]="task?.title"
         #titleInput="ngModel"
         required
         title
@@ -23,7 +23,7 @@
         row="6"
         placeholder="Task description"
         name="description"
-        [ngModel]="task.description"
+        [ngModel]="task?.description"
         #descriptionInput="ngModel"
         required
         description
