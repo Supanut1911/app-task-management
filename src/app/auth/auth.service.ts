@@ -50,12 +50,19 @@ export class AuthService {
     this.http
       .post<{ accessToken: string }>(BACKEND_API + '/auth/login', authData)
       .subscribe((response) => {
-        this.router.navigate(['/']);
         this.accesstoken = response.accessToken;
         if (this.accesstoken) {
           this.isAuthenticated = true;
           this.authStatusListener.next(true);
         }
+        this.router.navigate(['/']);
       });
+  }
+
+  logout() {
+    this.accesstoken = null;
+    this.isAuthenticated = false;
+    this.authStatusListener.next(false);
+    this.router.navigate(['/']);
   }
 }
