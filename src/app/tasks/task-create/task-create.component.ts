@@ -24,7 +24,13 @@ export class TaskCreateComponent implements OnInit {
       if (paramMap.has('taskId')) {
         this.mode = 'edit';
         this.taskId = paramMap.get('taskId');
-        this.task = this.taskService.getTask(this.taskId);
+        this.taskService.getTask(this.taskId).subscribe((taskData) => {
+          this.task = {
+            id: taskData._id,
+            title: taskData.title,
+            description: taskData.description,
+          };
+        });
       } else {
         this.mode = 'create';
         this.taskId = null;

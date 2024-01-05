@@ -40,12 +40,12 @@ export class TaskService {
   }
 
   getTask(id: string) {
-    return { ...this.tasks.find((task) => task.id === id) };
+    return this.http.get<{ _id: string; title: string; description: string }>(
+      BACKEND_API + '/task/' + id
+    );
   }
 
   saveTask(title: string, description: string) {
-    console.log('incoming', title, description);
-
     const task: Task = { id: null, title, description };
     this.http
       .post<{ taskId: string }>(BACKEND_API + '/task/only', task)
