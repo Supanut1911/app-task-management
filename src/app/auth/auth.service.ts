@@ -60,13 +60,21 @@ export class AuthService {
         if (this.accesstoken) {
           this.isAuthenticated = true;
           this.authStatusListener.next(true);
-          this.router.navigate(['/']);
 
           //lifetime of accessToken
           const expiresInDuration = response.expireIn * 1000;
           this.tokenTimer = setTimeout(() => {
             this.logout();
           }, expiresInDuration);
+
+          //save accesstoken & expireation to localstorage
+          const now = new Date();
+          const expirationDate = new Date(
+            now.getTime() + expiresInDuration * 1000
+          );
+          this.saveAuthData(this.accesstoken, expirationDate);
+
+          this.router.navigate(['/']);
         }
       });
   }
@@ -79,7 +87,20 @@ export class AuthService {
     //clear time out
     clearTimeout(this.tokenTimer);
 
+    //claer localstorage
+    this.clearAuthData();
+
     //redirect
     this.router.navigate(['/']);
+  }
+
+  saveAuthData(accessToken: string, expireIn: Date) {
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('expireIn', expireIn.toISOString());
+  }
+
+  clearAuthData() {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('expireIn');
   }
 }
