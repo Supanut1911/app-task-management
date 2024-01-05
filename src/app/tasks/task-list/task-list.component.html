@@ -16,6 +16,14 @@
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
+<mat-paginator
+  [length]="totalPosts"
+  [pageSize]="postsPerPage"
+  t
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="onChangePage($event)"
+  *ngIf="!(tasks.length == 0)"
+></mat-paginator>
 <p class="task-empty" *ngIf="tasks.length <= 0">
   ... Your task list is empty ...
 </p>

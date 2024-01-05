@@ -19,6 +19,7 @@ import { TaskListComponent } from './tasks/task-list/task-list.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { TaskService } from './tasks/task.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatPaginatorModule } from '@angular/material/paginator';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,6 +42,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     HttpClientModule,
     MatExpansionModule,
     MatProgressSpinnerModule,
+    MatPaginatorModule,
   ],
   providers: [TaskService],
   bootstrap: [AppComponent],

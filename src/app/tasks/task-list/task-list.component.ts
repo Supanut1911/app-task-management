@@ -10,6 +10,13 @@ import { Subscription } from 'rxjs';
 export class TaskListComponent implements OnInit, OnDestroy {
   tasks: Task[] = [];
   isLoading = false;
+
+  //paginate
+  totalPosts = 0;
+  postsPerPage = 5;
+  currentPage = 1;
+  pageSizeOptions = [5, 10, 20];
+
   private tasksSub: Subscription;
 
   constructor(public readonly taskService: TaskService) {}
@@ -28,6 +35,9 @@ export class TaskListComponent implements OnInit, OnDestroy {
   onDeleteTask(taskId: string) {
     this.taskService.deleteTask(taskId);
   }
+
+  //panigate
+  onChangePage(page: number) {}
 
   ngOnDestroy(): void {
     this.tasksSub.unsubscribe();
