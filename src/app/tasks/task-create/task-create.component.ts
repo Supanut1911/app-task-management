@@ -39,7 +39,12 @@ export class TaskCreateComponent implements OnInit {
     const title = form.value.title;
     const description = form.value.description;
 
-    this.taskService.saveTask(title, description);
+    if (this.mode === 'create') {
+      this.taskService.saveTask(title, description);
+    } else {
+      this.taskService.updateTask(this.taskId, title, description);
+    }
+
     form.resetForm();
   }
 }

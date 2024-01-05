@@ -57,6 +57,19 @@ export class TaskService {
     this.taskUpdated.next([...this.tasks]);
   }
 
+  updateTask(taskId: string, title: string, description: string) {
+    const task: Task = {
+      id: taskId,
+      title,
+      description,
+    };
+    this.http
+      .patch(BACKEND_API + '/task/only/' + taskId, task)
+      .subscribe((response) => {
+        console.log(response);
+      });
+  }
+
   deleteTask(taskId: string) {
     this.http.delete(BACKEND_API + '/task/only/' + taskId).subscribe(() => {
       const updatePost = this.tasks.filter((task) => {
