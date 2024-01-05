@@ -18,6 +18,7 @@ import { TaskCreateComponent } from './tasks/task-create/task-create.component';
 import { TaskListComponent } from './tasks/task-list/task-list.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { TaskService } from './tasks/task.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,6 +40,7 @@ import { TaskService } from './tasks/task.service';
     MatFormFieldModule,
     HttpClientModule,
     MatExpansionModule,
+    MatProgressSpinnerModule,
   ],
   providers: [TaskService],
   bootstrap: [AppComponent],

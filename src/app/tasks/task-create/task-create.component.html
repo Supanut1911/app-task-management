@@ -1,5 +1,6 @@
 <mat-card>
-  <form (submit)="onSaveTask(taskForm)" #taskForm="ngForm">
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <form (submit)="onSaveTask(taskForm)" #taskForm="ngForm" *ngIf="!isLoading">
     <h1 class="header" *ngIf="mode === 'create'">Create your task</h1>
     <h1 class="header" *ngIf="mode === 'edit'">Edit your task</h1>
     <mat-form-field>

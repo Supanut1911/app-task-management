@@ -9,17 +9,19 @@ import { Subscription } from 'rxjs';
 })
 export class TaskListComponent implements OnInit, OnDestroy {
   tasks: Task[] = [];
-
+  isLoading = false;
   private tasksSub: Subscription;
 
   constructor(public readonly taskService: TaskService) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.taskService.getTasks();
     this.tasksSub = this.taskService
       .getTaskUpdateListener()
       .subscribe((task: Task[]) => {
         this.tasks = task;
+        this.isLoading = false;
       });
   }
 
