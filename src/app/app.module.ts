@@ -13,13 +13,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { SignupComponent } from './auth/signup/signup.components';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TaskCreateComponent } from './tasks/task-create/task-create.component';
 import { TaskListComponent } from './tasks/task-list/task-list.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { TaskService } from './tasks/task.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { AuthInterceptor } from './auth/auth-intercepter';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +45,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatProgressSpinnerModule,
     MatPaginatorModule,
   ],
-  providers: [TaskService],
+  providers: [
+    TaskService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
