@@ -20,11 +20,11 @@ export class TaskService {
       .get<any>(BACKEND_API + '/task')
       .pipe(
         map((taskData) => {
-          return taskData.map((post) => {
+          return taskData.map((task) => {
             return {
-              title: post.title,
-              content: post.content,
-              id: post._id,
+              title: task.title,
+              description: task.description,
+              id: task._id,
             };
           });
         })
@@ -39,13 +39,21 @@ export class TaskService {
     return this.taskUpdated.asObservable();
   }
 
-  saveTask(title: string, content: string) {
-    const task: Task = { title, content };
-    // this.http.post(BACKEND_API + '/task', task).subscribe((response) => {
-    //   console.log(response);
+  saveTask(title: string, description: string) {
+    console.log('incoming', title, description);
 
-    // });
+    const task: Task = { id: null, title, description };
+    this.http
+      .post<{ taskId: string }>(BACKEND_API + '/task/only', task)
+      .subscribe((response) => {
+        const taskId = response.taskId;
+        task.id = taskId;
+      });
     this.tasks.push(task);
     this.taskUpdated.next([...this.tasks]);
+  }
+
+  deleteTask(taskId: string) {
+    this.http.delete(BACKEND_API + '/task/only/' + taskId).subscribe(() => {});
   }
 }

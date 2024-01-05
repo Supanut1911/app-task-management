@@ -5,11 +5,13 @@
 <mat-accordion multi="true" *ngIf="tasks.length > 0">
   <mat-expansion-panel *ngFor="let task of tasks">
     <mat-expansion-panel-header> {{ task.title }} </mat-expansion-panel-header>
-    <p>{{ task.content }}</p>
+    <p>{{ task.description }}</p>
     <mat-action-row>
       <button mat-button color="primary">Done</button>
       <button mat-button color="accent">Edit</button>
-      <button mat-button color="warn">Delete</button>
+      <button mat-button color="warn" (click)="onDeleteTask(task.id)">
+        Delete
+      </button>
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>

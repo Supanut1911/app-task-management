@@ -21,13 +21,13 @@
         matInput
         row="6"
         placeholder="Task description"
-        name="content"
+        name="description"
         ngModel
-        #contentInput="ngModel"
+        #descriptionInput="ngModel"
         required
-        content
+        description
       ></textarea>
-      <mat-error *ngIf="titleInput.invalid"
+      <mat-error *ngIf="descriptionInput.invalid"
         >Please enter a description</mat-error
       >
     </mat-form-field>

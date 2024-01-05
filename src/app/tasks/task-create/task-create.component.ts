@@ -16,9 +16,9 @@ export class TaskCreateComponent {
       return;
     }
     const title = form.value.title;
-    const content = form.value.content;
+    const description = form.value.description;
 
-    this.taskService.saveTask(title, content);
+    this.taskService.saveTask(title, description);
     form.resetForm();
   }
 }
