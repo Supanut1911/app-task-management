@@ -15,14 +15,10 @@ export class TaskListComponent implements OnInit, OnDestroy {
   constructor(public readonly taskService: TaskService) {}
 
   ngOnInit(): void {
-    this.tasks = this.taskService.getTasks();
+    this.taskService.getTasks();
     this.tasksSub = this.taskService
       .getTaskUpdateListener()
       .subscribe((task: Task[]) => {
-        console.log(
-          '🚀 ~ file: task-list.component.ts:22 ~ TaskListComponent ~ .subscribe ~ task:',
-          task
-        );
         this.tasks = task;
       });
   }
