@@ -19,5 +19,6 @@ export class TaskCreateComponent {
     const content = form.value.content;
 
     this.taskService.saveTask(title, content);
+    form.resetForm();
   }
 }
