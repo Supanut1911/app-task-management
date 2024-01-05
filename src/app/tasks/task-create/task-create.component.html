@@ -1,6 +1,7 @@
 <mat-card>
   <form (submit)="onSaveTask(taskForm)" #taskForm="ngForm">
-    <h1 class="header">Create your task</h1>
+    <h1 class="header" *ngIf="mode === 'create'">Create your task</h1>
+    <h1 class="header" *ngIf="mode === 'edit'">Edit your task</h1>
     <mat-form-field>
       <mat-label>Title</mat-label>
       <input
@@ -8,7 +9,7 @@
         placeholder="Task title"
         type="text"
         name="title"
-        ngModel
+        [ngModel]="task.title"
         #titleInput="ngModel"
         required
         title
@@ -22,7 +23,7 @@
         row="6"
         placeholder="Task description"
         name="description"
-        ngModel
+        [ngModel]="task.description"
         #descriptionInput="ngModel"
         required
         description

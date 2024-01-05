@@ -8,7 +8,7 @@
     <p>{{ task.description }}</p>
     <mat-action-row>
       <button mat-button color="primary">Done</button>
-      <button mat-button color="accent">Edit</button>
+      <a mat-button [routerLink]="['/edit', task.id]" color="accent">Edit</a>
       <button mat-button color="warn" (click)="onDeleteTask(task.id)">
         Delete
       </button>

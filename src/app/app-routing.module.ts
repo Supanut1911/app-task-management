@@ -9,7 +9,8 @@ const routes: Routes = [
   { path: '', component: TaskListComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'createTask', component: TaskCreateComponent },
+  { path: 'create', component: TaskCreateComponent },
+  { path: 'edit/:taskId', component: TaskCreateComponent },
 ];
 
 @NgModule({

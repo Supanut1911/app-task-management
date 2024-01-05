@@ -39,6 +39,10 @@ export class TaskService {
     return this.taskUpdated.asObservable();
   }
 
+  getTask(id: string) {
+    return { ...this.tasks.find((task) => task.id === id) };
+  }
+
   saveTask(title: string, description: string) {
     console.log('incoming', title, description);
 
@@ -54,6 +58,12 @@ export class TaskService {
   }
 
   deleteTask(taskId: string) {
-    this.http.delete(BACKEND_API + '/task/only/' + taskId).subscribe(() => {});
+    this.http.delete(BACKEND_API + '/task/only/' + taskId).subscribe(() => {
+      const updatePost = this.tasks.filter((task) => {
+        return task.id !== taskId;
+      });
+      this.tasks = updatePost;
+      this.taskUpdated.next([...this.tasks]);
+    });
   }
 }
