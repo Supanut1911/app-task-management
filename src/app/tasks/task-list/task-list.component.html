@@ -16,7 +16,9 @@
           <mat-action-row
             *ngIf="userIsAuthenticated && userId === task.creator"
           >
-            <button mat-button color="primary">Done</button>
+            <button mat-button color="primary" (click)="onDonePost(task.id)">
+              Done
+            </button>
             <a mat-button [routerLink]="['/edit', task.id]" color="accent"
               >Edit</a
             >
@@ -27,13 +29,13 @@
         </mat-expansion-panel>
       </mat-accordion>
       <mat-paginator
-        [length]="totalTasks"
+        [length]="totalOngoingTasks"
         [pageSize]="tasksPerPage"
         [pageSizeOptions]="pageSizeOptions"
         (page)="onChangePage($event)"
-        *ngIf="!(tasks.length == 0)"
+        *ngIf="!(onGoingtasks.length == 0)"
       ></mat-paginator>
-      <p class="task-empty" *ngIf="tasks.length <= 0">
+      <p class="task-empty" *ngIf="onGoingtasks.length <= 0">
         ... Your task list is empty ...
       </p>
     </mat-tab>
@@ -50,10 +52,6 @@
           <mat-action-row
             *ngIf="userIsAuthenticated && userId === task.creator"
           >
-            <button mat-button color="primary">Done</button>
-            <a mat-button [routerLink]="['/edit', task.id]" color="accent"
-              >Edit</a
-            >
             <button mat-button color="warn" (click)="onDeleteTask(task.id)">
               Delete
             </button>
@@ -61,13 +59,13 @@
         </mat-expansion-panel>
       </mat-accordion>
       <mat-paginator
-        [length]="totalTasks"
+        [length]="totalDoneTasks"
         [pageSize]="tasksPerPage"
         [pageSizeOptions]="pageSizeOptions"
         (page)="onChangePage($event)"
-        *ngIf="!(tasks.length == 0)"
+        *ngIf="!(doneTasks.length == 0)"
       ></mat-paginator>
-      <p class="task-empty" *ngIf="tasks.length <= 0">
+      <p class="task-empty" *ngIf="doneTasks.length <= 0">
         ... Your task list is empty ...
       </p>
     </mat-tab>

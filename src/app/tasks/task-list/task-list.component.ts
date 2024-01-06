@@ -99,6 +99,12 @@ export class TaskListComponent implements OnInit, OnDestroy {
     this.taskService.getTasks(this.tasksPerPage, this.currentPage);
   }
 
+  onDonePost(postId: string) {
+    this.taskService.updateTaskStatus(postId).subscribe(() => {
+      this.taskService.getTasks(this.ongoingTasksPerPage, this.currentPage);
+    });
+  }
+
   ngOnDestroy(): void {
     this.tasksSub.unsubscribe();
     this.authStatusSub.unsubscribe();

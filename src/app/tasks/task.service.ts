@@ -57,6 +57,8 @@ export class TaskService {
       )
       .subscribe(
         (transformTasksData) => {
+          console.log('>>transformTasksData, ', transformTasksData);
+
           this.tasks = transformTasksData.tasks;
           this.taskUpdated.next({
             tasks: [...this.tasks],
@@ -127,5 +129,9 @@ export class TaskService {
 
   deleteTask(taskId: string) {
     return this.http.delete(BACKEND_API + '/task/' + taskId);
+  }
+
+  updateTaskStatus(taskId: string) {
+    return this.http.patch(BACKEND_API + '/task/status/' + taskId, null);
   }
 }
