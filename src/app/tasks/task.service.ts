@@ -30,6 +30,7 @@ export class TaskService {
                 title: task.title,
                 description: task.description,
                 id: task._id,
+                creator: task.creator,
               };
             }),
             maxTasks: taskData.maxTasks,
@@ -50,15 +51,18 @@ export class TaskService {
   }
 
   getTask(id: string) {
-    return this.http.get<{ _id: string; title: string; description: string }>(
-      BACKEND_API + '/task/' + id
-    );
+    return this.http.get<{
+      _id: string;
+      title: string;
+      description: string;
+      creator: string;
+    }>(BACKEND_API + '/task/' + id);
   }
 
   saveTask(title: string, description: string) {
-    const task: Task = { id: null, title, description };
+    const task: Task = { id: null, title, description, creator: null };
     this.http
-      .post<{ taskId: string }>(BACKEND_API + '/task/only', task)
+      .post<{ taskId: string }>(BACKEND_API + '/task', task)
       .subscribe((response) => {
         this.router.navigate(['/']);
       });
@@ -69,6 +73,7 @@ export class TaskService {
       id: taskId,
       title,
       description,
+      creator: null,
     };
     this.http
       .patch(BACKEND_API + '/task/only/' + taskId, task)
