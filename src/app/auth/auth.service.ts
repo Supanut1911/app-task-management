@@ -13,6 +13,7 @@ export class AuthService {
   private isAuthenticated = false;
   private accesstoken: string;
   private authStatusListener = new Subject<boolean>();
+  private logoutMsg = 'Logout successful';
 
   //for timeout
   private tokenTimer: any;
@@ -114,6 +115,7 @@ export class AuthService {
 
     //claer localstorage
     this.clearAuthData();
+    this.toastrService.success(this.logoutMsg);
 
     //redirect
     this.router.navigate(['/']);
@@ -163,6 +165,7 @@ export class AuthService {
 
   private setAuthTimer(duration: number) {
     this.tokenTimer = setTimeout(() => {
+      this.logoutMsg = 'Session expire.';
       this.logout();
     }, duration * 1000);
   }
