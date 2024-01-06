@@ -46,7 +46,7 @@ import { ToastrModule } from 'ngx-toastr';
     MatProgressSpinnerModule,
     MatPaginatorModule,
     ToastrModule.forRoot({
-      timeOut: 150000,
+      timeOut: 1500,
       progressBar: true,
       progressAnimation: 'increasing',
       preventDuplicates: true,

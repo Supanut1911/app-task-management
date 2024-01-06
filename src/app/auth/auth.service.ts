@@ -70,29 +70,37 @@ export class AuthService {
         BACKEND_API + '/auth/login',
         authData
       )
-      .subscribe((response) => {
-        this.accesstoken = response.accessToken;
-        if (this.accesstoken) {
-          const expiresInDuration = response.expireIn;
+      .subscribe(
+        (response) => {
+          this.accesstoken = response.accessToken;
+          if (this.accesstoken) {
+            this.toastrService.success('Login Success');
 
-          //authTimer
-          this.setAuthTimer(expiresInDuration);
+            const expiresInDuration = response.expireIn;
 
-          //save accesstoken & expireation to localstorage
-          const now = new Date();
-          const expirationDate = new Date(
-            now.getTime() + expiresInDuration * 1000
-          );
-          this.userId = response.userId;
+            //authTimer
+            this.setAuthTimer(expiresInDuration);
 
-          this.saveAuthData(this.accesstoken, expirationDate, this.userId);
+            //save accesstoken & expireation to localstorage
+            const now = new Date();
+            const expirationDate = new Date(
+              now.getTime() + expiresInDuration * 1000
+            );
+            this.userId = response.userId;
 
-          this.isAuthenticated = true;
-          this.authStatusListener.next(true);
+            this.saveAuthData(this.accesstoken, expirationDate, this.userId);
 
-          this.router.navigate(['/']);
+            this.isAuthenticated = true;
+            this.authStatusListener.next(true);
+
+            this.router.navigate(['/']);
+          }
+        },
+        (error) => {
+          const errorMsg = error.error.message;
+          this.toastrService.error(errorMsg, 'Login not successful');
         }
-      });
+      );
   }
 
   logout() {
