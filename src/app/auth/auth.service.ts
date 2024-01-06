@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment.development';
 import { AuthData } from './auth-data.model';
 import { Router } from '@angular/router';
 import { Subject, Subscribable, Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 const BACKEND_API = environment.BACKEND_URL;
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,8 @@ export class AuthService {
 
   constructor(
     private readonly http: HttpClient,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly toastrService: ToastrService
   ) {}
 
   getAccessToken() {
@@ -44,11 +46,18 @@ export class AuthService {
       username,
       password,
     };
-    this.http
-      .post<AuthData>(BACKEND_API + '/user/signup', authData)
-      .subscribe((response) => {
+    this.http.post<AuthData>(BACKEND_API + '/userx/signup', authData).subscribe(
+      (response) => {
+        console.log('create user success');
+
+        this.toastrService.success('Create user success', 'Signup successfuly');
         this.router.navigate(['/login']);
-      });
+      },
+      (error) => {
+        const errorMsg = error.error.message;
+        this.toastrService.error(errorMsg, 'Signup fail');
+      }
+    );
   }
 
   login(username: string, password: string) {

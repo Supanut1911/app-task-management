@@ -21,6 +21,7 @@ import { TaskService } from './tasks/task.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { AuthInterceptor } from './auth/auth-intercepter';
+import { ToastrModule } from 'ngx-toastr';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,6 +45,12 @@ import { AuthInterceptor } from './auth/auth-intercepter';
     MatExpansionModule,
     MatProgressSpinnerModule,
     MatPaginatorModule,
+    ToastrModule.forRoot({
+      timeOut: 150000,
+      progressBar: true,
+      progressAnimation: 'increasing',
+      preventDuplicates: true,
+    }),
   ],
   providers: [
     TaskService,
