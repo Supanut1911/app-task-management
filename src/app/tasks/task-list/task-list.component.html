@@ -41,7 +41,7 @@
     </mat-tab>
 
     <!-- done task -->
-    <mat-tab label="On going">
+    <mat-tab label="Done">
       <mat-spinner *ngIf="isLoading"></mat-spinner>
       <mat-accordion multi="true" *ngIf="tasks.length > 0 && !isLoading">
         <mat-expansion-panel *ngFor="let task of doneTasks">
