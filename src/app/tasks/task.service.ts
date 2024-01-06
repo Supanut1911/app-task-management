@@ -13,7 +13,11 @@ const BACKEND_API = environment.BACKEND_URL;
 })
 export class TaskService {
   private tasks: Task[] = [];
-  private taskUpdated = new Subject<{ tasks: Task[]; taskCount: number }>();
+  private taskUpdated = new Subject<{
+    tasks: Task[];
+    taskOngoingCount: number;
+    taskDoneCount: number;
+  }>();
 
   constructor(
     private readonly http: HttpClient,
@@ -24,11 +28,18 @@ export class TaskService {
   getTasks(taskPerPage: number, currentPage: number) {
     const queryParams = `?pageSize=${taskPerPage}&page=${currentPage}`;
     this.http
-      .get<{ msg: string; tasks: any[]; maxTasks: number }>(
-        BACKEND_API + '/task' + queryParams
-      )
+      .get<{
+        msg: string;
+        tasks: any[];
+        countOngoingTasks: number;
+        countDoneTasks;
+      }>(BACKEND_API + '/task' + queryParams)
       .pipe(
         map((taskData) => {
+          console.log(
+            '🚀 ~ file: task.service.ts:39 ~ TaskService ~ map ~ taskData:',
+            taskData
+          );
           return {
             tasks: taskData.tasks.map((task) => {
               return {
@@ -36,9 +47,11 @@ export class TaskService {
                 description: task.description,
                 id: task._id,
                 creator: task.creator,
+                isActive: task.isActive,
               };
             }),
-            maxTasks: taskData.maxTasks,
+            maxOngoingTasks: taskData.countOngoingTasks,
+            maxDoneTask: taskData.countDoneTasks,
           };
         })
       )
@@ -47,7 +60,9 @@ export class TaskService {
           this.tasks = transformTasksData.tasks;
           this.taskUpdated.next({
             tasks: [...this.tasks],
-            taskCount: transformTasksData.maxTasks,
+            // taskCount: transformTasksData.maxTasks,
+            taskOngoingCount: transformTasksData.maxOngoingTasks,
+            taskDoneCount: transformTasksData.maxDoneTask,
           });
         },
         (error) => {
@@ -66,11 +81,18 @@ export class TaskService {
       title: string;
       description: string;
       creator: string;
+      isActive: boolean;
     }>(BACKEND_API + '/task/' + id);
   }
 
   saveTask(title: string, description: string) {
-    const task: Task = { id: null, title, description, creator: null };
+    const task: Task = {
+      id: null,
+      title,
+      description,
+      creator: null,
+      isActive: null,
+    };
     this.http.post<{ taskId: string }>(BACKEND_API + '/task', task).subscribe(
       (response) => {
         this.toastService.success('Create task successful');
@@ -89,6 +111,7 @@ export class TaskService {
       title,
       description,
       creator: null,
+      isActive: false,
     };
     this.http.patch(BACKEND_API + '/task/' + taskId, task).subscribe(
       (response) => {

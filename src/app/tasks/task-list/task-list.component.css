@@ -15,3 +15,32 @@
 mat-spinner {
   margin: auto;
 }
+
+mat-tab-group {
+  margin: 30px;
+  width: 800px;
+}
+
+.post-list-container {
+  display: flex;
+  justify-content: center;
+}
+
+.task-header-container {
+  text-align: center;
+  margin: 20px;
+}
+
+.task-topic {
+  margin-top: 50px;
+  font: 32px sans-serif;
+}
+
+.task-empty {
+  margin-top: 30px;
+  text-align: center;
+}
+
+mat-paginator {
+  margin-top: 16px;
+}

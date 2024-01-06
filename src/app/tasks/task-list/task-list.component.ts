@@ -12,13 +12,28 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class TaskListComponent implements OnInit, OnDestroy {
   tasks: Task[] = [];
+  onGoingtasks: Task[] = [];
+  doneTasks: Task[] = [];
   isLoading = false;
 
   //paginate
   totalTasks = 0;
-  tasksPerPage = 2;
+  tasksPerPage = 5;
   currentPage = 1;
-  pageSizeOptions = [2, 5, 10, 20];
+  pageSizeOptions = [5, 10, 20];
+
+  //on going
+  totalOngoingTasks = 0;
+  ongoingTasksPerPage = 5;
+  ongoingCurrentPage = 1;
+  ongoingPageSizeOptions = [5, 10];
+
+  //done
+  totalDoneTasks = 0;
+  doneTasksPerPage = 5;
+  doneCurrentPage = 1;
+  donePageSizeOptions = [5, 10];
+
   userIsAuthenticated = false;
   userId: string;
   private tasksSub: Subscription;
@@ -36,11 +51,25 @@ export class TaskListComponent implements OnInit, OnDestroy {
     this.userId = this.authService.getUserId();
     this.tasksSub = this.taskService
       .getTaskUpdateListener()
-      .subscribe((taskData: { tasks: Task[]; taskCount: number }) => {
-        this.tasks = taskData.tasks;
-        this.totalTasks = taskData.taskCount;
-        this.isLoading = false;
-      });
+      .subscribe(
+        (taskData: {
+          tasks: Task[];
+          taskOngoingCount: number;
+          taskDoneCount: number;
+        }) => {
+          this.tasks = taskData.tasks;
+
+          this.totalOngoingTasks = taskData.taskOngoingCount;
+          this.totalDoneTasks = taskData.taskDoneCount;
+
+          this.onGoingtasks = this.tasks.filter(
+            (post) => post.isActive === true
+          );
+          this.doneTasks = this.tasks.filter((post) => post.isActive === false);
+
+          this.isLoading = false;
+        }
+      );
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.authStatusSub = this.authService
       .getAuthStatusListener()

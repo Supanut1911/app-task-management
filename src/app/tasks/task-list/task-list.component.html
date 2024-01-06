@@ -2,27 +2,74 @@
   <p class="task-topic">The tasks</p>
 </div>
 
-<mat-spinner *ngIf="isLoading"></mat-spinner>
-<mat-accordion multi="true" *ngIf="tasks.length > 0 && !isLoading">
-  <mat-expansion-panel *ngFor="let task of tasks">
-    <mat-expansion-panel-header> {{ task.title }} </mat-expansion-panel-header>
-    <p>{{ task.description }}</p>
-    <mat-action-row *ngIf="userIsAuthenticated && userId === task.creator">
-      <button mat-button color="primary">Done</button>
-      <a mat-button [routerLink]="['/edit', task.id]" color="accent">Edit</a>
-      <button mat-button color="warn" (click)="onDeleteTask(task.id)">
-        Delete
-      </button>
-    </mat-action-row>
-  </mat-expansion-panel>
-</mat-accordion>
-<mat-paginator
-  [length]="totalTasks"
-  [pageSize]="tasksPerPage"
-  [pageSizeOptions]="pageSizeOptions"
-  (page)="onChangePage($event)"
-  *ngIf="!(tasks.length == 0)"
-></mat-paginator>
-<p class="task-empty" *ngIf="tasks.length <= 0">
-  ... Your task list is empty ...
-</p>
+<div class="post-list-container">
+  <mat-tab-group>
+    <!-- on going task -->
+    <mat-tab label="On going">
+      <mat-spinner *ngIf="isLoading"></mat-spinner>
+      <mat-accordion multi="true" *ngIf="tasks.length > 0 && !isLoading">
+        <mat-expansion-panel *ngFor="let task of onGoingtasks">
+          <mat-expansion-panel-header>
+            {{ task.title }}
+          </mat-expansion-panel-header>
+          <p>{{ task.description }}</p>
+          <mat-action-row
+            *ngIf="userIsAuthenticated && userId === task.creator"
+          >
+            <button mat-button color="primary">Done</button>
+            <a mat-button [routerLink]="['/edit', task.id]" color="accent"
+              >Edit</a
+            >
+            <button mat-button color="warn" (click)="onDeleteTask(task.id)">
+              Delete
+            </button>
+          </mat-action-row>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <mat-paginator
+        [length]="totalTasks"
+        [pageSize]="tasksPerPage"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="onChangePage($event)"
+        *ngIf="!(tasks.length == 0)"
+      ></mat-paginator>
+      <p class="task-empty" *ngIf="tasks.length <= 0">
+        ... Your task list is empty ...
+      </p>
+    </mat-tab>
+
+    <!-- done task -->
+    <mat-tab label="On going">
+      <mat-spinner *ngIf="isLoading"></mat-spinner>
+      <mat-accordion multi="true" *ngIf="tasks.length > 0 && !isLoading">
+        <mat-expansion-panel *ngFor="let task of doneTasks">
+          <mat-expansion-panel-header>
+            {{ task.title }}
+          </mat-expansion-panel-header>
+          <p>{{ task.description }}</p>
+          <mat-action-row
+            *ngIf="userIsAuthenticated && userId === task.creator"
+          >
+            <button mat-button color="primary">Done</button>
+            <a mat-button [routerLink]="['/edit', task.id]" color="accent"
+              >Edit</a
+            >
+            <button mat-button color="warn" (click)="onDeleteTask(task.id)">
+              Delete
+            </button>
+          </mat-action-row>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <mat-paginator
+        [length]="totalTasks"
+        [pageSize]="tasksPerPage"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="onChangePage($event)"
+        *ngIf="!(tasks.length == 0)"
+      ></mat-paginator>
+      <p class="task-empty" *ngIf="tasks.length <= 0">
+        ... Your task list is empty ...
+      </p>
+    </mat-tab>
+  </mat-tab-group>
+</div>

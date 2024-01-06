@@ -22,6 +22,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { AuthInterceptor } from './auth/auth-intercepter';
 import { ToastrModule } from 'ngx-toastr';
+import { MatTabsModule } from '@angular/material/tabs';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,6 +53,7 @@ import { ToastrModule } from 'ngx-toastr';
       progressAnimation: 'increasing',
       preventDuplicates: true,
     }),
+    MatTabsModule,
   ],
   providers: [
     TaskService,

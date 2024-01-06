@@ -33,6 +33,7 @@ export class TaskCreateComponent implements OnInit {
             title: taskData.title,
             description: taskData.description,
             creator: taskData.creator,
+            isActive: taskData.isActive,
           };
         });
       } else {
