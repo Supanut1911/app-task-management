@@ -76,13 +76,13 @@ export class TaskService {
       creator: null,
     };
     this.http
-      .patch(BACKEND_API + '/task/only/' + taskId, task)
+      .patch(BACKEND_API + '/task/' + taskId, task)
       .subscribe((response) => {
         this.router.navigate(['/']);
       });
   }
 
   deleteTask(taskId: string) {
-    return this.http.delete(BACKEND_API + '/task/only/' + taskId);
+    return this.http.delete(BACKEND_API + '/task/' + taskId);
   }
 }
