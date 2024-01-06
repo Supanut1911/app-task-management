@@ -47,7 +47,7 @@ export class AuthService {
       username,
       password,
     };
-    this.http.post<AuthData>(BACKEND_API + '/userx/signup', authData).subscribe(
+    this.http.post<AuthData>(BACKEND_API + '/user/signup', authData).subscribe(
       (response) => {
         console.log('create user success');
 
