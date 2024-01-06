@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
 import { map } from 'rxjs';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 const BACKEND_API = environment.BACKEND_URL;
 @Injectable({
@@ -14,7 +15,11 @@ export class TaskService {
   private tasks: Task[] = [];
   private taskUpdated = new Subject<{ tasks: Task[]; taskCount: number }>();
 
-  constructor(private readonly http: HttpClient, private router: Router) {}
+  constructor(
+    private readonly http: HttpClient,
+    private router: Router,
+    private toastService: ToastrService
+  ) {}
 
   getTasks(taskPerPage: number, currentPage: number) {
     const queryParams = `?pageSize=${taskPerPage}&page=${currentPage}`;
@@ -37,13 +42,18 @@ export class TaskService {
           };
         })
       )
-      .subscribe((transformTasksData) => {
-        this.tasks = transformTasksData.tasks;
-        this.taskUpdated.next({
-          tasks: [...this.tasks],
-          taskCount: transformTasksData.maxTasks,
-        });
-      });
+      .subscribe(
+        (transformTasksData) => {
+          this.tasks = transformTasksData.tasks;
+          this.taskUpdated.next({
+            tasks: [...this.tasks],
+            taskCount: transformTasksData.maxTasks,
+          });
+        },
+        (error) => {
+          this.toastService.error('Error fetching data from server');
+        }
+      );
   }
 
   getTaskUpdateListener() {
@@ -61,11 +71,16 @@ export class TaskService {
 
   saveTask(title: string, description: string) {
     const task: Task = { id: null, title, description, creator: null };
-    this.http
-      .post<{ taskId: string }>(BACKEND_API + '/task', task)
-      .subscribe((response) => {
+    this.http.post<{ taskId: string }>(BACKEND_API + '/task', task).subscribe(
+      (response) => {
+        this.toastService.success('Create task successful');
         this.router.navigate(['/']);
-      });
+      },
+      (error) => {
+        const errorMsg = error.error.message;
+        this.toastService.error(errorMsg);
+      }
+    );
   }
 
   updateTask(taskId: string, title: string, description: string) {
@@ -75,11 +90,16 @@ export class TaskService {
       description,
       creator: null,
     };
-    this.http
-      .patch(BACKEND_API + '/task/' + taskId, task)
-      .subscribe((response) => {
+    this.http.patch(BACKEND_API + '/task/' + taskId, task).subscribe(
+      (response) => {
+        this.toastService.success('Update task successful');
         this.router.navigate(['/']);
-      });
+      },
+      (error) => {
+        const errorMsg = error.error.message;
+        this.toastService.error(errorMsg);
+      }
+    );
   }
 
   deleteTask(taskId: string) {

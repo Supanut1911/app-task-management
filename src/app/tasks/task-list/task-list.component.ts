@@ -4,6 +4,7 @@ import { Task } from '../task.model';
 import { Subscription } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { AuthService } from '../../auth/auth.service';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-task-list',
   templateUrl: './task-list.component.html',
@@ -25,7 +26,8 @@ export class TaskListComponent implements OnInit, OnDestroy {
 
   constructor(
     public readonly taskService: TaskService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly toastService: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -49,9 +51,16 @@ export class TaskListComponent implements OnInit, OnDestroy {
   }
 
   onDeleteTask(taskId: string) {
-    this.taskService.deleteTask(taskId).subscribe((response) => {
-      this.taskService.getTasks(this.tasksPerPage, this.currentPage);
-    });
+    this.taskService.deleteTask(taskId).subscribe(
+      (response) => {
+        this.toastService.success('Delete successful');
+        this.taskService.getTasks(this.tasksPerPage, this.currentPage);
+      },
+      (error) => {
+        const errorMsg = error.error.message;
+        this.toastService.error(errorMsg);
+      }
+    );
   }
 
   //panigate
