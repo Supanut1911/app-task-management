@@ -36,10 +36,6 @@ export class TaskService {
       }>(BACKEND_API + '/task' + queryParams)
       .pipe(
         map((taskData) => {
-          console.log(
-            '🚀 ~ file: task.service.ts:39 ~ TaskService ~ map ~ taskData:',
-            taskData
-          );
           return {
             tasks: taskData.tasks.map((task) => {
               return {
