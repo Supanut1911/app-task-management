@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  BACKEND_URL: 'http://localhost:7788/api',
+  BACKEND_URL: 'https://api-taskmanagement.0xnutx.space/api',
 };
