@@ -18,21 +18,21 @@ export class TaskListComponent implements OnInit, OnDestroy {
 
   //paginate
   totalTasks = 0;
-  tasksPerPage = 5;
+  tasksPerPage = 10;
   currentPage = 1;
-  pageSizeOptions = [5, 10, 20];
+  pageSizeOptions = [10, 20, 50];
 
   //on going
   totalOngoingTasks = 0;
-  ongoingTasksPerPage = 5;
+  ongoingTasksPerPage = 10;
   ongoingCurrentPage = 1;
-  ongoingPageSizeOptions = [5, 10];
+  ongoingPageSizeOptions = [10, 20, 50];
 
   //done
   totalDoneTasks = 0;
   doneTasksPerPage = 5;
   doneCurrentPage = 1;
-  donePageSizeOptions = [5, 10];
+  donePageSizeOptions = [10, 20, 50];
 
   userIsAuthenticated = false;
   userId: string;
